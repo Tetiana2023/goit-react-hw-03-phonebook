@@ -1,6 +1,7 @@
 import React from 'react';
 import { ContactItem } from 'components/ContactItem/ContactItem';
- import css from './ContactList.module.css';
+import css from './ContactList.module.css';
+import PropTypes from 'prop-types';
 
 export const ContactList = ({contacts, hendleDeleteContact})=> {
     return (
@@ -18,4 +19,11 @@ export const ContactList = ({contacts, hendleDeleteContact})=> {
         </>
     )
 
-}
+};
+ContactList.propType = {
+    contacts:PropTypes.shape({
+        id:PropTypes.string.isRequired,
+        name:PropTypes.string.isRequired,
+        number:PropTypes.string.isRequired, 
+    }).isRequired,
+    }

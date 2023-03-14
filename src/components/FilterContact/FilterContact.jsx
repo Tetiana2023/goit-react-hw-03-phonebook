@@ -1,5 +1,7 @@
 import React from "react";
 import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
+
 
 export const FilterContact =({value, hendleFilter }) => {
    const filterId= nanoid(); 
@@ -16,4 +18,8 @@ export const FilterContact =({value, hendleFilter }) => {
         </label>
         </>
     )
+}
+FilterContact.propType = {
+    value:PropTypes.string.isRequired,
+    hendleFilter:PropTypes.func.isRequired,
 }

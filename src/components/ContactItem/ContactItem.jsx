@@ -12,10 +12,11 @@ export const ContactItem = ({name, number, hendleDeleteContact})=>{
         </div>
         </>
     )
-}
+};
 
 ContactItem.propTypes = {
     name:PropTypes.string.isRequired,
     number:PropTypes.string.isRequired,
+    hendleDeleteContact:PropTypes.func.isRequired,
 
 }

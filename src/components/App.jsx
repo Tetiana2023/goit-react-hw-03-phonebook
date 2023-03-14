@@ -3,8 +3,9 @@ import React from 'react';
 import { FormContact } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { FilterContact } from './FilterContact/FilterContact';
+import { Section } from './Section/Section';
 import { nanoid } from 'nanoid';
-import css from './App.module.css'
+import css from './App.module.css';
 
 export class App extends Component {
   state = {
@@ -48,29 +49,48 @@ export class App extends Component {
     this.setState({ filter: event.target.value });
   };
 
-  getVivsibleContacts = () => {
+  getVisibleContacts = () => {
     const { filter, contacts } = this.state;
     const normalizedFilter = filter.toLocaleLowerCase();
-    return  contacts.filter(contact =>
+    return contacts.filter(contact =>
       contact.name.toLocaleLowerCase().includes(normalizedFilter)
     );
   };
 
+  componentDidMount(){
+    const contactsFromLocal= localStorage.getItem('contacts');
+    const parsetContacts = JSON.parse(contactsFromLocal);
+
+    if(parsetContacts){
+       this.setState = ({contacts: parsetContacts});
+    }
+  
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(this.state.contacts !== prevState.contacts){
+      // console.log(1)
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    }
+  }
+
   render() {
-    const visibleContacts = this.getVivsibleContacts();
+    // const visibleContacts = this.getVivsibleContacts();
     return (
       <div className={css.container}>
-        <h1 className={css.title}>Phonebook</h1>
-        <FormContact onSubmit={this.addNewContact} />
-        <h2 className={css.title}>Contacts</h2>
-        <FilterContact
-          value={this.state.filter}
-          hendleFilter={this.hendleFilter}
-        />
-        <ContactList
-          contacts={visibleContacts}
-          hendleDeleteContact={this.hendleDeleteContact}
-        />
+        <Section title="Phonebook">
+          <FormContact onSubmit={this.addNewContact} />
+        </Section>
+        <Section title="Contacts">
+          <FilterContact
+            value={this.state.filter}
+            hendleFilter={this.hendleFilter}/>
+
+          <ContactList
+            contacts={this.getVisibleContacts()}
+            hendleDeleteContact={this.hendleDeleteContact}
+          />
+        </Section>
       </div>
     );
   }
