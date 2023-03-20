@@ -40,7 +40,8 @@ export class App extends Component {
   };
 
   hendleDeleteContact = id => {
-    this.setState(({ contacts }) => ({
+    
+    this.setState(( {contacts})  => ({
       contacts: contacts.filter(contact => contact.id !== id),
     }));
   };
@@ -67,7 +68,7 @@ export class App extends Component {
   
   }
 
-  componentDidUpdate(prevProps, prevState){
+  componentDidUpdate(_, prevState){
     if(this.state.contacts !== prevState.contacts){
       // console.log(1)
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
