@@ -21,7 +21,22 @@ export class App extends Component {
   // formSubmitHandler = data => {
   //   console.log(data);
   // };
+componentDidMount(){
+    const contactsFromLocal= localStorage.getItem('contacts');
+    const parsetContacts = JSON.parse(contactsFromLocal);
 
+    if(parsetContacts){
+       this.setState ({contacts: parsetContacts});
+    }
+  
+  }
+
+  componentDidUpdate(_, prevState){
+    if(this.state.contacts !== prevState.contacts){
+      // console.log(1)
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    }
+  }
   addNewContact = ({ name, number }) => {
     const newContact = {
       name,
@@ -52,28 +67,11 @@ export class App extends Component {
 
   getVisibleContacts = () => {
     const { filter, contacts } = this.state;
-    const normalizedFilter = filter.toLocaleLowerCase();
+    const normalizedFilter = filter.toLowerCase();
     return contacts.filter(contact =>
-      contact.name.toLocaleLowerCase().includes(normalizedFilter)
+      contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
-
-  componentDidMount(){
-    const contactsFromLocal= localStorage.getItem('contacts');
-    const parsetContacts = JSON.parse(contactsFromLocal);
-
-    if(parsetContacts){
-       this.setState = ({contacts: parsetContacts});
-    }
-  
-  }
-
-  componentDidUpdate(_, prevState){
-    if(this.state.contacts !== prevState.contacts){
-      // console.log(1)
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
-    }
-  }
 
   render() {
     // const visibleContacts = this.getVivsibleContacts();
